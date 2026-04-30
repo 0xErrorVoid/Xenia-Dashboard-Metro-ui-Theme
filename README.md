@@ -3,11 +3,11 @@ This project is an authentic, fan-made recreation of the classic 2008-2011 Xbox 
 
 <div align="center">
 
-  <img src="none" width="48%" alt="Home Screen">
-  <img src="none" width="48%" alt="Game Library">
+  <img src="Home-page.png" width="48%" alt="Home Screen">
+  <img src="Games-page1.png" width="48%" alt="Game Library">
   <br/>
-  <img src="none" width="48%" alt="Achievements">
-  <img src="none" width="48%" alt="Settings Menu">
+  <img src="Achievements-page.png" width="48%" alt="Achievements">
+  <img src="Settings-pages.png" width="48%" alt="Settings Menu">
 </div>
 
 <br/>
