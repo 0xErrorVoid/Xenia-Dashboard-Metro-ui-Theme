@@ -7,7 +7,7 @@ This project is an authentic, fan-made recreation of the classic 2008-2011 Xbox 
   <img src="Games-page1.png" width="48%" alt="Game Library">
   <br/>
   <img src="Achievements-page.png" width="48%" alt="Achievements">
-  <img src="Settings-pages.png" width="48%" alt="Settings Menu">
+  <img src="Settings-page.png" width="48%" alt="Settings Menu">
 </div>
 
 <br/>
