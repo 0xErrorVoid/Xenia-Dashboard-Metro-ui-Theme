@@ -1,0 +1,486 @@
+<section class="page" id="settings-core" x-data x-init="$store.actions.initializeAppSettings()">
+    
+    <div class="nxe-settings-wrapper">
+
+        <h1 class="nxe-settings-title" x-text="$store.app.t('core_config.title')">Core Configuration</h1> 
+        
+        <div class="nxe-settings-container">
+            
+            <nav class="nxe-settings-menu">
+                <template x-for="(item, index) in $store.app.coreSettingsItems" :key="item.id">
+                    <div 
+                        :id="`core-item-${index}`" 
+                        class="nxe-settings-item"
+                        :class="{'focused': $store.app.focusedIndex === index && $store.app.focusedCollection === 'coreSettingsItems'}"
+                        @click="$store.actions.selectFocusedItem()"
+                    >
+                        <img class="nxe-settings-icon" :src="item.icon" alt="">
+                        
+                        <span x-text="
+                            item.id === 'config-file' ? $store.app.t('core_config.config_file') :
+                            item.id === 'xenia-path' ? $store.app.t('core_config.xenia_path') :
+                            item.id === 'game-folder' ? $store.app.t('core_config.game_folder') :
+                            item.id === 'linux-launch' ? $store.app.t('core_config.linux_method') :
+                            item.id === 'proton-path' ? $store.app.t('core_config.proton_path') :
+                            item.id === 'steamgrid-api' ? $store.app.t('core_config.api_key') :
+                            item.id === 'download-xenia-win' ? $store.app.t('core_config.manager_win') :
+                            item.id === 'download-xenia-linux' ? $store.app.t('core_config.manager_linux') :
+                            item.id === 'download-patches' ? $store.app.t('core_config.download_patches') :
+                            item.id === 'open-xenia-dash' ? $store.app.t('core_config.open_dashboard') :
+                            item.id === 'art-source' ? $store.app.t('core_config.art_source') :
+                            item.id === 'app-update' ? $store.app.t('core_config.app_update_title') :
+                            item.id === 'download-optimized' ? $store.app.t('core_config.optimized_settings') :
+
+
+                            item.name
+                        "></span>
+
+                        <div class="setting-value" x-show="item.id === 'art-source'">
+                            <span x-text="$store.app.settings.artSource || 'SteamGridDB'" 
+                                style="color: var(--nxe-brand-primary); font-weight: bold; text-transform: uppercase;">
+                            </span>
+                        </div>
+                        
+                        <span x-show="item.id === 'download-xenia-win' && $store.app.downloadStatuses.win.status !== 'idle'" 
+                              style="font-size: 0.8rem; margin-inline-start: auto; color: var(--nxe-green-light);">
+                            <span x-text="$store.app.downloadStatuses.win.percentage + '%'"></span>
+                        </span>
+                        
+                        <span x-show="item.id === 'download-xenia-linux' && $store.app.downloadStatuses.linux.status !== 'idle'" 
+                              style="font-size: 0.8rem; margin-inline-start: auto; color: var(--nxe-green-light);">
+                            <span x-text="$store.app.downloadStatuses.linux.percentage + '%'"></span>
+                        </span>
+                        
+                        <span x-show="item.id === 'download-patches' && $store.app.downloadStatuses.patches.status !== 'idle'" 
+                              style="font-size: 0.8rem; margin-inline-start: auto; color: var(--nxe-green-light);">
+                            <span x-text="$store.app.downloadStatuses.patches.percentage + '%'"></span>
+                        </span>
+                    </div>
+                </template>
+            </nav>
+            
+            <div class="nxe-settings-description">
+                
+                <template x-if="$store.app.focusedIndex === 0">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.config_file')">Config File</h3>
+                        <p x-text="$store.app.t('core_config.config_file_desc')">Edit the xenia-canary.config.toml file directly.</p>
+                    </div>
+                </template>
+
+                <template x-if="$store.app.focusedIndex === 1">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.xenia_path')">Xenia Path</h3>
+                        <p 
+                            class="path-display"
+                            :class="{'path-error': $store.app.settings.xeniaPath.includes('[Not Found]')}"
+                            x-text="$store.app.settings.xeniaPath"
+                            style="word-break: break-all; max-height: 100px; overflow: hidden;"
+                        ></p>
+                        <p style="color: var(--nxe-text-secondary); font-size: 1rem;" x-text="$store.app.t('core_config.xenia_path_desc')">This is the file path to your xenia_canary.exe.</p>
+                    </div>
+                </template>
+
+                <template x-if="$store.app.focusedIndex === 2">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.game_folder')">Game Folder</h3>
+                        <p 
+                            :class="{'path-error': $store.app.settings.gameFolderPath.startsWith('[Not Found]') || $store.app.settings.gameFolderPath.startsWith('[Folder Not Valid]')}"
+                            x-text="$store.app.settings.gameFolderPath"
+                        ></p>
+                        <p style="color: var(--nxe-text-secondary); font-size: 1rem;" x-text="$store.app.t('core_config.game_folder_desc')">The folder where your Xbox 360 games are stored.</p>
+                    </div>
+                </template>
+
+                <template x-if="$store.app.focusedIndex === 3">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.linux_method')">Linux Launch Method</h3>
+                        <p 
+                            style="color: var(--nxe-green-light); font-weight: bold; font-size: 1.2rem;"
+                            x-text="$store.app.settings.linuxLaunchMethod"
+                        ></p>
+                        <p style="color: var(--nxe-text-secondary); font-size: 1rem;"> <span x-text="$store.app.t('core_config.Linux')">(For Linux users only).</span> <span x-text="$store.app.t('core_config.press')">Press</span> <span style="color: var(--nxe-btn-a);">(A)</span> <span x-text="$store.app.t('core_config.cycle_method')"> cycle the method:</span></p>
+                        <p style="color: var(--nxe-text-secondary); font-size: 1rem;">Native -> Wine -> Proton</p>
+                    </div>
+                </template>
+
+                <template x-if="$store.app.focusedIndex === 4">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.proton_path')">Proton Path</h3>
+                        <p 
+                            :class="{'path-error': $store.app.settings.protonPath.startsWith('[Not Found]') || $store.app.settings.protonPath.startsWith('[File Not Valid]')}"
+                            x-text="$store.app.settings.protonPath"
+                        ></p>
+                        <p 
+                            style="color: var(--nxe-text-secondary); font-size: 1rem;"
+                            x-show="$store.app.settings.linuxLaunchMethod === 'proton'"
+                        >
+                            <span x-text="$store.app.t('core_config.linuxLaunchMethod')">Path to your 'proton' executable</span> (e.g., in .steam/steam/...).
+                        </p>
+                        <p 
+                            style="color: #888; font-size: 1rem;"
+                            x-show="$store.app.settings.linuxLaunchMethod !== 'proton'"
+                        >
+                            <span x-text="$store.app.t('core_config.nonlinuxLaunchMethod')">(This setting is only required if 'Linux Launch Method' is set to 'Proton').</span>
+                        </p>
+                    </div>
+                </template>
+                
+                <template x-if="$store.app.focusedIndex === 5">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.api_key')">SteamGridDB API</h3>
+                        <p x-text="$store.app.t('core_config.api_desc')">Enter your API key to fetch game artwork.</p>
+                        <input type="password" id="steamgrid-api-input" placeholder="Enter API key..." :value="$store.app.settings.apiKey">
+                        
+                        <button 
+                            class="setting-button" 
+                            :class="{
+                                'save': !$store.app.apiSaveStatus, 
+                                'saved': $store.app.apiSaveStatus
+                            }"
+                            @click="$store.actions.saveApiKey()" 
+                            :disabled="$store.app.apiSaveStatus" 
+                            x-text="$store.app.apiSaveStatus ? $store.app.t('generic.saved') : $store.app.t('generic.save')"
+                        ></button>
+                    </div>
+                </template>
+
+                <template x-if="$store.app.focusedIndex === 6">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.manager_win')">Xenia Canary (Windows) Manager</h3>
+                        
+                        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                            <!-- صندوق النسخة العادية (Standard) -->
+                            <div style="flex: 1; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                <h4 style="margin: 0 0 10px 0; color: var(--nxe-brand-primary);">Standard Canary</h4>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.85rem;">
+                                    <span style="color: #888;" x-text="$store.app.t('core_config.installed') + ':'">Installed:</span>
+                                    <span style="color: white; font-weight: bold;" x-text="$store.app.xeniaUpdateInfo.win.localVer"></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                    <span style="color: #888;" x-text="$store.app.t('core_config.latest') + ':'">Latest:</span>
+                                    <span style="color: var(--nxe-green-light); font-weight: bold;" x-text="$store.app.xeniaUpdateInfo.win.remoteVer"></span>
+                                </div>
+                                
+                                <!-- رسائل التقدم للنسخة العادية -->
+                                <div style="margin-top: 10px; min-height: 25px;">
+                                    <p x-show="$store.app.downloadStatuses.win.status === 'idle'" style="font-weight: bold; font-size: 0.85rem; margin: 0;" :style="{ color: $store.app.xeniaUpdateInfo.win.color }" x-text="$store.app.xeniaUpdateInfo.win.message"></p>
+                                    <div x-show="$store.app.downloadStatuses.win.status !== 'idle'">
+                                        <p style="font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; color: #3a82e5;" x-text="$store.app.downloadStatuses.win.status"></p>
+                                        <div class="nxe-progress-bar" style="height: 6px;" x-show="$store.app.downloadStatuses.win.percentage > 0 && $store.app.downloadStatuses.win.step !== 'done'">
+                                            <div class="nxe-progress-bar-fill" :style="{ width: $store.app.downloadStatuses.win.percentage + '%' }"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- صندوق نسخة (Netplay) -->
+                            <div style="flex: 1; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                                <h4 style="margin: 0 0 10px 0; color: var(--nxe-brand-light);">Netplay Version</h4>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.85rem;">
+                                    <span style="color: #888;" x-text="$store.app.t('core_config.installed') + ':'">Installed:</span>
+                                    <span style="color: white; font-weight: bold;" x-text="$store.app.xeniaUpdateInfo.winNetplay.localVer"></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                    <span style="color: #888;" x-text="$store.app.t('core_config.latest') + ':'">Latest:</span>
+                                    <span style="color: var(--nxe-green-light); font-weight: bold;" x-text="$store.app.xeniaUpdateInfo.winNetplay.remoteVer"></span>
+                                </div>
+                                
+                                <!-- رسائل التقدم للنسخة النتبلاي -->
+                                <div style="margin-top: 10px; min-height: 25px;">
+                                    <p x-show="$store.app.downloadStatuses.winNetplay.status === 'idle'" style="font-weight: bold; font-size: 0.85rem; margin: 0;" :style="{ color: $store.app.xeniaUpdateInfo.winNetplay.color }" x-text="$store.app.xeniaUpdateInfo.winNetplay.message"></p>
+                                    <div x-show="$store.app.downloadStatuses.winNetplay.status !== 'idle'">
+                                        <p style="font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; color: #f2c40e;" x-text="$store.app.downloadStatuses.winNetplay.status"></p>
+                                        <div class="nxe-progress-bar" style="height: 6px;" x-show="$store.app.downloadStatuses.winNetplay.percentage > 0 && $store.app.downloadStatuses.winNetplay.step !== 'done'">
+                                            <div class="nxe-progress-bar-fill" style="background: linear-gradient(to right, #f2c40e, #d29922);" :style="{ width: $store.app.downloadStatuses.winNetplay.percentage + '%' }"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p style="color: var(--nxe-text-secondary); font-size: 0.95rem; margin-top: 5px;">
+                            <span style="display: block; margin-bottom: 5px;">
+                                <span x-text="$store.app.t('core_config.press')">Press</span> 
+                                <span style="color: var(--nxe-btn-a); font-weight: bold;">(A)</span > <span x-text="$store.app.t('core_config.to_update')">to Update</span> <span style="color: white;">Standard Canary</span>.
+                            </span>
+                            <span style="display: block;">
+                                <span x-text="$store.app.t('core_config.press')">Press</span> 
+                                <span style="color: var(--nxe-btn-x); font-weight: bold;">(X)</span> <span x-text="$store.app.t('core_config.to_update')">to Update</span> <span style="color: white;">Netplay Version</span>.
+                            </span>
+                        </p>
+                    </div>
+                </template>
+
+                <template x-if="$store.app.focusedIndex === 7">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.manager_linux')">Xenia Canary (Linux) Manager</h3>
+                        
+                        <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span style="color: #888;" x-text="$store.app.t('core_config.installed') + ':'">Installed:</span>
+                                <span style="color: white; font-weight: bold;" x-text="$store.app.xeniaUpdateInfo.linux.localVer + ' (' + $store.app.xeniaUpdateInfo.linux.localDate + ')'"></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #888;" x-text="$store.app.t('core_config.latest') + ':'">Latest:</span>
+                                <span style="color: var(--nxe-green-light); font-weight: bold;" x-text="$store.app.xeniaUpdateInfo.linux.remoteVer + ' (' + $store.app.xeniaUpdateInfo.linux.remoteDate + ')'"></span>
+                            </div>
+                        </div>
+
+                        <div style="min-height: 60px; display: flex; flex-direction: column; justify-content: center;">
+                            <p 
+                                x-show="$store.app.downloadStatuses.linux.status === 'idle'"
+                                style="font-weight: bold; font-size: 1.1rem; margin: 0;"
+                                :style="{ color: $store.app.xeniaUpdateInfo.linux.color }"
+                                x-text="$store.app.xeniaUpdateInfo.linux.message"
+                            ></p>
+
+                            <div x-show="$store.app.downloadStatuses.linux.status !== 'idle'">
+                                <p 
+                                    style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; transition: color 0.3s;"
+                                    :style="{
+                                        color: $store.app.downloadStatuses.linux.step === 'error' ? '#ff6b6b' : 
+                                               $store.app.downloadStatuses.linux.step === 'done' ? '#59c853' : 
+                                               $store.app.downloadStatuses.linux.step === 'download' ? '#3a82e5' : 
+                                               '#f2c40e' 
+                                    }"
+                                    x-text="$store.app.downloadStatuses.linux.status"
+                                ></p>
+                                
+                                <div class="nxe-progress-bar" x-show="$store.app.downloadStatuses.linux.percentage > 0 && $store.app.downloadStatuses.linux.step !== 'done'">
+                                    <div class="nxe-progress-bar-fill" :style="{ width: $store.app.downloadStatuses.linux.percentage + '%' }"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p style="color: var(--nxe-text-secondary); font-size: 0.9rem; margin-top: 15px;">
+                            <span x-show="$store.app.downloadStatuses.linux.status === 'idle'"><span x-text="$store.app.t('core_config.press')">Press</span> <span style="color: var(--nxe-btn-a);">(A)</span> to <span x-text="$store.app.xeniaUpdateInfo.linux.btnText"></span>.</span>
+                            <span x-show="$store.app.downloadStatuses.linux.status !== 'idle' && $store.app.downloadStatuses.linux.step !== 'done'" style="color: #f2c40e;" x-text="$store.app.t('generic.processing')">Processing... Please wait.</span>
+                            <span x-show="$store.app.downloadStatuses.linux.step === 'done'" style="color: #59c853;">Success!</span>
+                        </p>
+                    </div>
+                </template>
+
+                <template x-if="$store.app.focusedIndex === 8">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.download_patches')">Download Game Patches</h3>
+                        <p x-text="$store.app.t('core_config.download_patches_desc')">Downloads the latest game patches from the Xenia Canary team.</p>
+                        <p style="color: var(--nxe-text-secondary); font-size: 1rem;">
+                           <span x-text="$store.app.t('core_config.patches_install_location')">Patches will be installed in:</span> <br>
+                           <span style="color: white;">.../xenia-win/patches</span> & <span style="color: white;">.../xenia-linux/patches</span>
+                        </p>
+                        
+                        <div style="min-height: 60px; display: flex; flex-direction: column; justify-content: center;">
+                            <p 
+                                style="font-weight: bold; font-size: 1.2rem; margin-top: 15px;"
+                                :style="{ 
+                                    color: $store.app.downloadStatuses.patches.step === 'error' ? 'var(--nxe-red-light, #ff6b6b)' : 
+                                           $store.app.downloadStatuses.patches.step === 'done' ? 'var(--nxe-green-light)' : 
+                                           $store.app.downloadStatuses.patches.status === 'idle' ? 'var(--nxe-green-light)' : 
+                                           '#f2c40e'
+                                }"
+                                x-text="$store.app.downloadStatuses.patches.status === 'idle' ? $store.app.t('core_config.ready_dl') : $store.app.downloadStatuses.patches.status"
+                            ></p>
+                            
+                            <div class="nxe-progress-bar" x-show="$store.app.downloadStatuses.patches.percentage > 0 && $store.app.downloadStatuses.patches.step !== 'done'">
+                                <div 
+                                    class="nxe-progress-bar-fill" 
+                                    :style="{ width: $store.app.downloadStatuses.patches.percentage + '%' }"
+                                ></div>
+                                <div 
+                                    class="nxe-progress-bar-text" 
+                                    x-text="$store.app.downloadStatuses.patches.percentage + '%'"
+                                ></div>
+                            </div>
+                        </div>
+                        
+                        <p style="color: var(--nxe-text-secondary); font-size: 0.9rem; margin-top: 15px;">
+                            <span x-text="$store.app.t('core_config.press')">Press</span> <span style="color: var(--nxe-btn-a);">(A)</span> <span x-text="$store.app.t('core_config.to_download')">to Download</span>.</span>
+                        </p>
+                    </div>
+                </template>
+                <template x-if="$store.app.coreSettingsItems[$store.app.focusedIndex].id === 'open-xenia-dash'">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.open_dashboard')"></h3>
+                        
+                        <hr style="border-color: rgba(255,255,255,0.1); margin: 10px 0;">
+
+                        <p x-text="$store.app.t('core_config.open_dashboard_desc')"></p>
+                        
+                        <div style="margin-top: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px;">
+                            <p style="font-size: 0.9rem; color: #aaa; margin: 0;">
+                                <span style="color: #fff;" x-text="$store.app.t('core_config.dashboard_tip')"></span>
+                            </p>
+                        </div>
+
+                        <p style="color: var(--nxe-text-secondary); font-size: 0.9rem; margin-top: 15px;">
+                            <span x-text="$store.app.t('generic.press_a_launch')"></span>
+                        </p>
+                    </div>
+                </template>
+                <template x-if="$store.app.focusedIndex === 10"> 
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.art_source')">Metadata Source</h3>
+                        
+                        <p x-text="$store.app.t('core_config.art_source_desc')">Choose where to fetch game covers and info from.</p>
+                        
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px;">
+                            <ul style="margin: 0; padding-inline-start: 20px; color: #ccc;">
+                                
+                                <li :style="($store.app.settings.artSource || 'SteamGridDB') === 'SteamGridDB' ? 'color: #fff; opacity: 1;' : 'color: #888; opacity: 0.7;'">
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <span>
+                                            <b style="color:white" x-text="$store.app.t('core_config.source_steam')">SteamGridDB:</b> 
+                                            <span x-text="$store.app.t('core_config.source_steam_desc')">High quality covers...</span>
+                                        </span>
+                                        <span x-show="($store.app.settings.artSource || 'SteamGridDB') === 'SteamGridDB'" 
+                                            style="color: #59c853; font-weight: bold; font-size: 1.2rem;">✔</span>
+                                    </div>
+                                </li>
+
+                                <div style="height: 8px;"></div>
+
+                                <li :style="$store.app.settings.artSource === 'LocalDB' ? 'color: #fff; opacity: 1;' : 'color: #888; opacity: 0.7;'">
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <span>
+                                            <b style="color:white" x-text="$store.app.t('core_config.source_local')">LocalDB:</b> 
+                                            <span x-text="$store.app.t('core_config.source_local_desc')">Offline database...</span>
+                                        </span>
+                                        <span x-show="$store.app.settings.artSource === 'LocalDB'" 
+                                            style="color: #59c853; font-weight: bold; font-size: 1.2rem;">✔</span>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                        
+                        <p style="color: var(--nxe-text-secondary); font-size: 0.9rem; margin-top: 15px;">
+                            <span x-text="$store.app.t('core_config.current_setting')">Current:</span> 
+                            <span style="color: var(--nxe-brand-primary); font-weight: bold;" x-text="$store.app.settings.artSource || 'SteamGridDB'"></span>
+                            <br>
+                            <span x-text="$store.app.t('core_config.toggle_source')">Press (A) to toggle source.</span>
+                        </p>
+                    </div>
+                </template>
+
+                <template x-if="$store.app.focusedIndex === 11">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.app_update_title') || 'Dashboard Update'">Dashboard Update</h3>
+                        
+                        <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span style="color: #888;" x-text="$store.app.t('core_config.current_version')">Current Version:</span>
+                                <span style="color: white; font-weight: bold;" x-text="$store.app.appUpdateInfo.currentVer"></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #888;" x-text="$store.app.t('core_config.latest_version')">Latest Version:</span>
+                                <span style="color: var(--nxe-green-light); font-weight: bold;" x-text="$store.app.appUpdateInfo.remoteVer"></span>
+                            </div>
+                        </div>
+
+                        <div style="min-height: 60px; display: flex; flex-direction: column; justify-content: center;">
+                            <p 
+                                style="font-weight: bold; font-size: 1.1rem; margin: 0;"
+                                :style="{ color: $store.app.appUpdateInfo.status === 'update-available' ? '#59c853' : '#fff' }"
+                                x-text="$store.app.appUpdateInfo.message"
+                            ></p>
+
+                            <div x-show="$store.app.appUpdateInfo.status === 'downloading'" style="margin-top: 10px;">
+                                <div class="nxe-progress-bar" style="height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; overflow: hidden;">
+                                    <div class="nxe-progress-bar-fill" 
+                                        :style="{ width: $store.app.appUpdateInfo.percentage + '%' }"
+                                        style="height: 100%; background: var(--nxe-brand-primary); transition: width 0.3s ease;">
+                                    </div>
+                                </div>
+                                <p style="text-align: center; margin-top: 5px; font-size: 0.9rem; color: var(--nxe-brand-primary); font-weight: bold;" 
+                                x-text="$store.app.appUpdateInfo.percentage + '%'"></p>
+                            </div>
+                        </div>
+
+                        <p style="color: var(--nxe-text-secondary); font-size: 0.9rem; margin-top: 15px;">
+                            <span x-show="$store.app.appUpdateInfo.status !== 'downloading'">
+                                <span x-text="$store.app.t('core_config.press')">Press</span> <span style="color: var(--nxe-btn-y);">(Y)</span> <span x-text="$store.app.t('core_config.check')">to Check or</span> <span style="color: var(--nxe-btn-a);">(A)</span> <span x-text="$store.app.t('core_config.update')">to Update.</span>
+                            </span>
+
+                            <span x-show="$store.app.appUpdateInfo.status === 'downloading'" style="color: #f2c40e;" x-text="$store.app.t('core_config.downloading')">
+                                Downloading & Installing... The app will restart automatically.
+                            </span>
+                        </p>
+                    </div>
+                </template>
+                <template x-if="$store.app.coreSettingsItems[$store.app.focusedIndex].id === 'download-optimized'">
+                    <div>
+                        <h3 x-text="$store.app.t('core_config.optimized_settings')"></h3>
+                        <p x-text="$store.app.t('core_config.download_optimized_desc')"></p>
+                        
+                        <div style="min-height: 80px; display: flex; flex-direction: column; justify-content: center; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+                            <p style="font-weight: bold; font-size: 1.1rem; margin: 0 0 10px 0;"
+                            :style="{ color: $store.app.downloadStatuses.optimized.step === 'done' ? '#59c853' : 
+                                                $store.app.downloadStatuses.optimized.step === 'error' ? '#ff6b6b' : '#fff' }"
+                            x-text="$store.app.downloadStatuses.optimized.status === 'idle' ? 'Ready to Download' : $store.app.downloadStatuses.optimized.status">
+                            </p>
+
+                            <div class="nxe-progress-bar" x-show="$store.app.downloadStatuses.optimized.percentage > 0 && $store.app.downloadStatuses.optimized.step !== 'done'">
+                                <div class="nxe-progress-bar-fill" :style="{ width: $store.app.downloadStatuses.optimized.percentage + '%' }"></div>
+                            </div>
+                        </div>
+
+                        <p style="color: var(--nxe-text-secondary); font-size: 0.9rem; margin-top: 20px;">
+                            <span x-text="$store.app.t('core_config.press')">Press</span> <span style="color: var(--nxe-btn-a); font-weight: bold;">(A)</span> <span x-text="$store.app.t('generic.download-optimized')">to Download and Install Database.</span>
+                        </p>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div> 
+    
+    <footer class="nxe-footer-left">
+        <div class="footer-button" id="btn-a">
+            <span class="button-icon a">A</span> 
+            <span x-text="$store.app.coreSettingsItems[$store.app.focusedIndex].id === 'download-optimized' ? 'Download' : 
+                        ($store.app.focusedIndex === 5 ? $store.app.t('generic.edit') : $store.app.t('generic.select'))">
+                Select
+            </span>
+        </div>
+        <div class="footer-button" id="btn-b" @click.prevent="$store.actions.goBack()">
+            <span class="button-icon b">B</span> 
+            <span x-text="$store.app.t('generic.back')">Back</span>
+        </div>
+    </footer>
+    <style>
+    
+    html[dir="rtl"] #settings-core .nxe-settings-item {
+        display: flex !important;
+        flex-direction: row-reverse !important; 
+        direction: ltr !important; 
+        justify-content: flex-start !important;
+        gap: 15px !important;
+    }
+
+    
+    html[dir="rtl"] #settings-core .nxe-settings-item span[x-text] {
+        direction: rtl !important;
+        text-align: right !important;
+        flex-grow: 1 !important; 
+    }
+
+
+
+    
+    html[dir="rtl"] #settings-core .setting-value,
+    html[dir="rtl"] #settings-core .nxe-settings-item span[x-show] {
+        margin-right: 15px !important;
+        margin-left: 0 !important;
+        order: 2 !important;
+    }
+
+    
+    html[dir="rtl"] #settings-core .nxe-settings-description {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+    html[dir="rtl"] .nxe-settings-title {
+        text-align: right;
+    }
+</style>
+</section>

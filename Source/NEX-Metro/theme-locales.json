@@ -1,0 +1,314 @@
+{
+  "en": {
+    "dashboard_menu": {
+      "home": "HOME",
+      "achievements": "ACHIEVEMENTS",
+      "games": "GAMES",
+      "settings": "SETTINGS",
+      "about": "ABOUT",
+      "opentray": "Open Tray",
+      "gamelibrary": "Game Library",
+      "change_bg": "Change Background",
+      "reset_bg": "Reset Background"
+    },
+    "settings": {
+      "Settings-Core_title": "Settings Core",
+      "Settings-Color_title": "Interface Color",
+      "Settings-Theme_title": "Themes Settings",
+      "Settings-Wellpaper_title": "Wallpaper Settings",
+      "Settings-Sound_title": "Sound Settings",
+      "Settings-Language_title": "Language"
+    },
+    "guide": {
+      "home": "HOME",
+      "settings": "SETTINGS",
+      "games": "GAMES"
+    }
+  },
+  "ar": {
+    "dashboard_menu": {
+      "home": "الرئيسية",
+      "achievements": "الإنجازات",
+      "games": "الألعاب",
+      "settings": "الإعدادات",
+      "about": "حول",
+      "opentray": "فتح الدرج",
+      "gamelibrary": "مكتبة الألعاب",
+      "change_bg": "تغيير الخلفية",
+      "reset_bg": "إعادة تعيين الخلفية"
+    },
+    "settings": {
+      "Settings-Core_title": "الإعدادات الأساسية",
+      "Settings-Color_title": "ألوان الواجهة",
+      "Settings-Theme_title": "إعدادات الثيمات",
+      "Settings-Wellpaper_title": "إعدادات الخلفية",
+      "Settings-Sound_title": "إعدادات الصوت",
+      "Settings-Language_title": "اللغة"
+    },
+    "guide": {
+      "home": "الرئيسية",
+      "settings": "الإعدادات",
+      "games": "الألعاب"
+    }
+  },
+  "zh": {
+    "dashboard_menu": {
+      "home": "主页",
+      "achievements": "成就",
+      "games": "游戏",
+      "settings": "设置",
+      "about": "关于",
+      "opentray": "打开托盘",
+      "gamelibrary": "游戏库",
+      "change_bg": "更改背景",
+      "reset_bg": "重置背景"
+    },
+    "settings": {
+      "Settings-Core_title": "核心设置",
+      "Settings-Color_title": "界面颜色",
+      "Settings-Theme_title": "主题设置",
+      "Settings-Wellpaper_title": "壁纸设置",
+      "Settings-Sound_title": "声音设置",
+      "Settings-Language_title": "语言"
+    },
+    "guide": {
+      "home": "主页",
+      "settings": "设置",
+      "games": "游戏"
+    }
+  },
+  "ja": {
+    "dashboard_menu": {
+      "home": "ホーム",
+      "achievements": "実績",
+      "games": "ゲーム",
+      "settings": "設定",
+      "about": "概要",
+      "opentray": "トレイを開く",
+      "gamelibrary": "ゲームライブラリ",
+      "change_bg": "背景を変更",
+      "reset_bg": "背景をリセット"
+    },
+    "settings": {
+      "Settings-Core_title": "コア設定",
+      "Settings-Color_title": "インターフェースの色",
+      "Settings-Theme_title": "テーマ設定",
+      "Settings-Wellpaper_title": "壁紙設定",
+      "Settings-Sound_title": "サウンド設定",
+      "Settings-Language_title": "言語"
+    },
+    "guide": {
+      "home": "ホーム",
+      "settings": "設定",
+      "games": "ゲーム"
+    }
+  },
+  "ko": {
+    "dashboard_menu": {
+      "home": "홈",
+      "achievements": "도전 과제",
+      "games": "게임",
+      "settings": "설정",
+      "about": "정보",
+      "opentray": "트레이 열기",
+      "gamelibrary": "게임 라이브러리",
+      "change_bg": "배경 변경",
+      "reset_bg": "배경 리셋"
+    },
+    "settings": {
+      "Settings-Core_title": "핵심 설정",
+      "Settings-Color_title": "인터페이스 색상",
+      "Settings-Theme_title": "테마 설정",
+      "Settings-Wellpaper_title": "배경화면 설정",
+      "Settings-Sound_title": "사운드 설정",
+      "Settings-Language_title": "언어"
+    },
+    "guide": {
+      "home": "홈",
+      "settings": "설정",
+      "games": "게임"
+    }
+  },
+  "ru": {
+    "dashboard_menu": {
+      "home": "ГЛАВНАЯ",
+      "achievements": "ДОСТИЖЕНИЯ",
+      "games": "ИГРЫ",
+      "settings": "НАСТРОЙКИ",
+      "about": "О ПРОГРАММЕ",
+      "opentray": "Открыть лоток",
+      "gamelibrary": "Библиотека игр",
+      "change_bg": "Изменить фон",
+      "reset_bg": "Сбросить фон"
+    },
+    "settings": {
+      "Settings-Core_title": "Основные настройки",
+      "Settings-Color_title": "Цвет интерфейса",
+      "Settings-Theme_title": "Настройки тем",
+      "Settings-Wellpaper_title": "Настройки обоев",
+      "Settings-Sound_title": "Настройки звука",
+      "Settings-Language_title": "Язык"
+    },
+    "guide": {
+      "home": "ГЛАВНАЯ",
+      "settings": "НАСТРОЙКИ",
+      "games": "ИГРЫ"
+    }
+  },
+  "de": {
+    "dashboard_menu": {
+      "home": "START",
+      "achievements": "ERFOLGE",
+      "games": "SPIELE",
+      "settings": "EINSTELLUNGEN",
+      "about": "ÜBER",
+      "opentray": "Laufwerk öffnen",
+      "gamelibrary": "Spielebibliothek",
+      "change_bg": "Hintergrund ändern",
+      "reset_bg": "Hintergrund zurücksetzen"
+    },
+    "settings": {
+      "Settings-Core_title": "Kerneinstellungen",
+      "Settings-Color_title": "Schnittstellenfarbe",
+      "Settings-Theme_title": "Themen-Einstellungen",
+      "Settings-Wellpaper_title": "Hintergrund-Einstellungen",
+      "Settings-Sound_title": "Toneinstellungen",
+      "Settings-Language_title": "Sprache"
+    },
+    "guide": {
+      "home": "START",
+      "settings": "EINSTELLUNGEN",
+      "games": "SPIELE"
+    }
+  },
+  "pt_BR": {
+    "dashboard_menu": {
+      "home": "INÍCIO",
+      "achievements": "CONQUISTAS",
+      "games": "JOGOS",
+      "settings": "CONFIGURAÇÕES",
+      "about": "SOBRE",
+      "opentray": "Abrir Bandeja",
+      "gamelibrary": "Biblioteca de Jogos",
+      "change_bg": "Alterar Plano de Fundo",
+      "reset_bg": "Redefinir Plano de Fundo"
+    },
+    "settings": {
+      "Settings-Core_title": "Configurações Principais",
+      "Settings-Color_title": "Cor da Interface",
+      "Settings-Theme_title": "Configurações de Tema",
+      "Settings-Wellpaper_title": "Configurações de Papel de Parede",
+      "Settings-Sound_title": "Configurações de Som",
+      "Settings-Language_title": "Idioma"
+    },
+    "guide": {
+      "home": "INÍCIO",
+      "settings": "CONFIGURAÇÕES",
+      "games": "JOGOS"
+    }
+  },
+  "es": {
+    "dashboard_menu": {
+      "home": "INICIO",
+      "achievements": "LOGROS",
+      "games": "JUEGOS",
+      "settings": "CONFIGURACIÓN",
+      "about": "ACERCA DE",
+      "opentray": "Abrir Bandeja",
+      "gamelibrary": "Biblioteca de Juegos",
+      "change_bg": "Cambiar Fondo",
+      "reset_bg": "Restablecer Fondo"
+    },
+    "settings": {
+      "Settings-Core_title": "Configuración Principal",
+      "Settings-Color_title": "Color de la Interfaz",
+      "Settings-Theme_title": "Configuración de Temas",
+      "Settings-Wellpaper_title": "Configuración de Fondo",
+      "Settings-Sound_title": "Configuración de Sonido",
+      "Settings-Language_title": "Idioma"
+    },
+    "guide": {
+      "home": "INICIO",
+      "settings": "CONFIGURACIÓN",
+      "games": "JUEGOS"
+    }
+  },
+  "tr": {
+    "dashboard_menu": {
+      "home": "ANA SAYFA",
+      "achievements": "BAŞARILAR",
+      "games": "OYUNLAR",
+      "settings": "AYARLAR",
+      "about": "HAKKINDA",
+      "opentray": "Tepsiyi Aç",
+      "gamelibrary": "Oyun Kütüphanesi",
+      "change_bg": "Arka Planı Değiştir",
+      "reset_bg": "Arka Planı Sıfırla"
+    },
+    "settings": {
+      "Settings-Core_title": "Temel Ayarlar",
+      "Settings-Color_title": "Arayüz Rengi",
+      "Settings-Theme_title": "Tema Ayarları",
+      "Settings-Wellpaper_title": "Duvar Kağıdı Ayarları",
+      "Settings-Sound_title": "Ses Ayarları",
+      "Settings-Language_title": "Dil"
+    },
+    "guide": {
+      "home": "ANA SAYFA",
+      "settings": "AYARLAR",
+      "games": "OYUNLAR"
+    }
+  },
+  "it": {
+    "dashboard_menu": {
+      "home": "HOME",
+      "achievements": "OBIETTIVI",
+      "games": "GIOCHI",
+      "settings": "IMPOSTAZIONI",
+      "about": "INFORMAZIONI",
+      "opentray": "Apri Vano",
+      "gamelibrary": "Libreria Giochi",
+      "change_bg": "Cambia Sfondo",
+      "reset_bg": "Ripristina Sfondo"
+    },
+    "settings": {
+      "Settings-Core_title": "Impostazioni di Base",
+      "Settings-Color_title": "Colore Interfaccia",
+      "Settings-Theme_title": "Impostazioni Tema",
+      "Settings-Wellpaper_title": "Sfondo",
+      "Settings-Sound_title": "Impostazioni Audio",
+      "Settings-Language_title": "Lingua"
+    },
+    "guide": {
+      "home": "HOME",
+      "settings": "IMPOSTAZIONI",
+      "games": "GIOCHI"
+    }
+  },
+  "fr": {
+    "dashboard_menu": {
+      "home": "ACCUEIL",
+      "achievements": "SUCCÈS",
+      "games": "JEUX",
+      "settings": "PARAMÈTRES",
+      "about": "À PROPOS",
+      "opentray": "Ouvrir le Lecteur",
+      "gamelibrary": "Bibliothèque de Jeux",
+      "change_bg": "Changer le Fond",
+      "reset_bg": "Réinitialiser le Fond"
+    },
+    "settings": {
+      "Settings-Core_title": "Paramètres Principaux",
+      "Settings-Color_title": "Couleur de l'Interface",
+      "Settings-Theme_title": "Paramètres du Thème",
+      "Settings-Wellpaper_title": "Paramètres du Fond d'écran",
+      "Settings-Sound_title": "Paramètres Audio",
+      "Settings-Language_title": "Langue"
+    },
+    "guide": {
+      "home": "ACCUEIL",
+      "settings": "PARAMÈTRES",
+      "games": "JEUX"
+    }
+  }
+}
