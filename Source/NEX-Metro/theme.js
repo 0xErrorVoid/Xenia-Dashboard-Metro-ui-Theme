@@ -407,7 +407,7 @@ document.addEventListener('keydown', (e) => {
               "name": "ACHIEVEMENTS",
               "detailMenu": [
                 { "id": "achievements", "name": "Achievements Hub", "view": "achievements", "icon": "/assets/icons/achievements.png", "heroUrl": "assets/images/items/Achievements-Top.gif" },
-                { "id": "leaderboard", "name": "", "view": "none", "icon": "", "heroUrl": "assets/images/items/Achievements-DownLeft.gif"},
+                { "id": "content", "name": "System Content", "view": "settings-content", "icon": "/assets/icons/content.webp", "heroUrl": "assets/images/items/Achievements-DownLeft.gif"},
                 { "id": "stats", "name": "", "view": "none", "icon": "", "heroUrl": "assets/images/items/Achievements-DownRight.gif", "html": `<div style="position: absolute; bottom: 20px; left: 20px; z-index: 10; display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); padding: 8px 15px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); box-shadow: 0 4px 10px rgba(0,0,0,0.5);"><div style="width: 24px; height: 24px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 14px; box-shadow: 0 0 8px rgba(255,255,255,0.6);">G</div><span style="font-size: 1.4rem; font-weight: bold; color: #fff; text-shadow: 0 2px 4px #000;" x-text="$store.app.gamerscore + ' G'"></span></div>` }
               ] 
             },
@@ -453,11 +453,11 @@ document.addEventListener('keydown', (e) => {
             const app = Alpine.store('app');
             if (app.masterMenu.length === 0) return; 
 
-            // 1. تحديث القائمة الفرعية بناءً على القسم المختار حالياً
+            
             app.detailMenu = [...app.masterMenu[app.masterIndex].detailMenu];
             app.detailIndex = 0;
 
-            // 2. منطق قسم "HOME" (Index 0): تحديث أيقونة اللعبة المفتوحة في الـ Tray
+            
             if (app.selectedGame && app.masterIndex === 0) { 
                 let trayItem = app.detailMenu[0]; 
                 if (trayItem) {
@@ -470,7 +470,7 @@ document.addEventListener('keydown', (e) => {
                 }
             }
 
-            // 3. منطق قسم "GAMES" (Index 2): تدوير صور الخلفية بشكل عشوائي لمكتبة الألعاب
+            
             if (app.masterIndex === 2) {
                 const games = app.filteredLibraryGames || app.gamesList || [];
                 const heroes = games.filter(g => g.heroUrl && g.heroUrl !== 'none').map(g => g.heroUrl);
@@ -484,7 +484,7 @@ document.addEventListener('keydown', (e) => {
                         libraryTile.heroUrl = initialHero;
                     }
 
-                    // تنظيف أي Timer قديم قبل بدء واحد جديد
+                    
                     if (window.heroInterval) clearInterval(window.heroInterval);
                     
                     let currentHeroIdx = randomIndex;
@@ -496,7 +496,7 @@ document.addEventListener('keydown', (e) => {
                     }, 5000);
                 }
             } else {
-                // إذا خرج المستخدم من قسم الألعاب، نقوم بإيقاف التدوير لتوفير الموارد
+                
                 if (window.heroInterval) {
                     clearInterval(window.heroInterval);
                     window.heroInterval = null;

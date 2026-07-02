@@ -440,6 +440,22 @@ body::after {
     transform-origin: bottom left; 
 }
 
+.tile-content .metro-floating-icon {
+    width: 50px;      
+    height: 50px;     
+    bottom: 50px;     
+    left: 55px;       
+    top: auto;        
+    right: auto;      
+    transform: none;  
+}
+
+
+.tile-content.focused .metro-floating-icon {
+    transform: scale(1.1); 
+    transform-origin: bottom left; 
+}
+
 .tile-gamelibrary .metro-floating-icon {
     width: 70px;      
     height: 70px;     
@@ -609,7 +625,7 @@ body::after {
     background: rgba(0,0,0,0.1) !important;
     border-radius: 4px !important;
 }
-.config-option.focused { background-color: #6bd316 !important; color: #fff !important; }
+.config-option.focused { background-color: #4a6434 !important; color: #fff !important; }
 
 .nxe-config-input {
     background: #ffffff !important;

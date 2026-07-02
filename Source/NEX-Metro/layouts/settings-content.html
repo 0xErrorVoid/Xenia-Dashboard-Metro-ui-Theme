@@ -1,0 +1,220 @@
+<section class="page" id="settings-content" x-data>
+        <div class="blade-dynamic-bg" style="background-image: url('assets/images/wallpapers/Settings.png'); position: absolute; top:0; left:0; width:100%; height:100%; z-index:-1;"></div>
+    <div class="global-glass-bg" style="z-index:-1;"></div>
+    <div class="nxe-settings-wrapper">
+        <h1 class="nxe-settings-title" x-text="$store.app.t('dashboard_menu.content')"></h1>
+        
+        <div class="nxe-settings-container" style="position: relative;">
+            
+            <div x-show="$store.app.showXboxInstallNotify" class="nxe-tool-download-overlay" style="display: none;">
+                <div class="nxe-tool-download-card">
+                    <div class="nxe-tool-download-header">
+                        <h3 x-text="$store.app.t('install_tool.title')"></h3>
+                    </div>
+                    
+                    <div class="nxe-tool-download-body">
+                        <img src="assets/icons/xenia canary.png" alt="Tool Icon" class="tool-icon-bw">
+                        <p x-html="$store.app.t('install_tool.desc')"></p>
+
+                        <div class="download-status" x-show="$store.app.xboxInstallDownloadState !== 'idle'">
+                            <span x-show="$store.app.xboxInstallDownloadState === 'downloading'" style="color: #107c10; font-size: 1.1rem; font-weight: bold;" x-text="$store.app.t('install_tool.downloading')"></span>
+                            <span x-show="$store.app.xboxInstallDownloadState === 'success'" style="color: #107c10; font-size: 1.1rem; font-weight: bold;" x-text="$store.app.t('install_tool.success')"></span>
+                            <span x-show="$store.app.xboxInstallDownloadState === 'error'" style="color: #d32f2f; font-size: 1.1rem; font-weight: bold;" x-text="$store.app.t('install_tool.error')"></span>
+                        </div>
+                    </div>
+
+                    <div class="nxe-tool-download-footer" x-show="$store.app.xboxInstallDownloadState === 'idle' || $store.app.xboxInstallDownloadState === 'error'">
+                        <div class="footer-hint-bw">
+                            <span class="button-icon y" style="background-color: var(--nxe-btn-y) !important; border-radius: 50% !important;">Y</span>
+                            <span x-text="$store.app.t('install_tool.download_btn')"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="nxe-settings-menu">
+                <template x-for="(cat, index) in $store.app.contentCategories" :key="cat.id">
+                    <div class="nxe-settings-item"
+                         :class="{'focused': $store.app.contentPanelFocus === 'menu' && $store.app.focusedContentCategoryIndex === index}"
+                         @click="$store.app.contentPanelFocus = 'menu'; $store.app.focusedContentCategoryIndex = index; $store.actions.loadSystemContent();">
+                        <img class="nxe-settings-icon" :src="cat.icon" alt="">
+                        <span x-text="$store.app.t('contentCategories.' + cat.id)"></span>
+                    </div>
+                </template>
+            </nav>
+                    
+            <div class="nxe-settings-description config-editor-options" style="padding: 20px;">
+                <div x-show="$store.app.isContentLoading && !$store.app.showXboxInstallNotify" style="text-align: center; color: #555; font-size: 1.2rem; font-weight: bold; margin-top: 20px;">
+                    <span x-text="$store.app.t('generic.loading')"></span>
+                </div>
+
+                <div x-show="!$store.app.isContentLoading && !$store.app.showXboxInstallNotify && $store.app.contentItems.length === 0" style="text-align: center; color: #666; margin-top: 20px;">
+                    <span style="font-weight: bold;" x-text="$store.app.t('content.no_items')"></span>
+                    <br><br>
+                    <span style="font-size: 0.95rem;" x-text="$store.app.t('content.press_x_to_install')"></span>
+                </div>
+
+                <div class="config-options-wrapper" x-show="!$store.app.isContentLoading && !$store.app.showXboxInstallNotify">
+                    <template x-for="(item, index) in $store.app.contentItems" :key="item.file_name">
+                        <div class="config-option"
+                             :class="{'focused': $store.app.contentPanelFocus === 'list' && $store.app.focusedContentItemIndex === index}"
+                             :id="'sys-content-item-' + index"
+                             style="cursor: pointer;">
+                            
+                            <div style="display: flex; flex-direction: column; max-width: 75%;">
+                                <strong style="font-size: 1.2rem; color: #c7c7c7;" x-text="item.display_name || item.file_name"></strong>
+                                <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #c7c7c7;margin-top: 4px;">
+                                    <img :src="item.iconUrl || 'assets/icons/placeholder.png'" style="width: 20px; height: 20px; border-radius: 4px; object-fit: cover;" alt="Game Icon">
+                                    
+                                    <span x-text="item.game_name + ' | ' + $store.app.t('content.title_id_label') + ': ' + item.title_id"></span>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span x-show="item.disabled" style="background: #e0e0e0; color: #555; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; border: 1px solid #ccc;" x-text="$store.app.t('content.disabled')"></span>
+                                <span x-show="!item.disabled" style="background: #e8f5e9; color: #107c10; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; border: 1px solid #107c10;" x-text="$store.app.t('content.active')"></span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <footer class="nxe-footer-left">
+        <div class="footer-button" x-show="$store.app.contentPanelFocus === 'list' && $store.app.contentItems.length > 0 && !$store.app.showXboxInstallNotify">
+            <span class="button-icon a">A</span> 
+            <span x-text="$store.app.t('content.toggle')"></span>
+        </div>
+        
+        <div class="footer-button" x-show="$store.app.contentPanelFocus === 'list' && $store.app.contentItems.length > 0 && !$store.app.showXboxInstallNotify">
+            <span class="button-icon y">Y</span> 
+            <span x-text="$store.app.t('content.delete')"></span>
+        </div>
+
+        <div class="footer-button" x-show="!$store.app.showXboxInstallNotify">
+            <span class="button-icon x">X</span> 
+            <span x-text="$store.app.t('content.install_' + $store.app.contentCategories[$store.app.focusedContentCategoryIndex].id)"></span>
+        </div>
+
+        <div class="footer-button" @click.prevent="$store.actions.goBack()">
+            <span class="button-icon b">B</span> 
+            <span x-text="$store.app.t('generic.back')"></span>
+        </div>
+        <div class="footer-button"
+            x-show="$store.app.contentPanelFocus === 'list' &&
+                    $store.app.contentItems.length > 0 &&
+                    $store.app.contentItems[$store.app.focusedContentItemIndex]?.content_type === '00000001' &&
+                    !$store.app.showXboxInstallNotify">
+            <span class="button-icon rb">RB</span>
+            <span x-text="$store.app.t('content.export_save')"></span>
+        </div>
+    </footer>
+
+    <style>
+    
+    .nxe-tool-download-overlay {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(255, 255, 255, 0.85); 
+        backdrop-filter: blur(5px);
+        z-index: 100; display: flex; align-items: center; justify-content: center;
+    }
+    
+    .nxe-tool-download-card {
+        width: 85%; max-width: 500px; 
+        background: #ffffff; 
+        border: 1px solid #cccccc;
+        border-radius: 8px; 
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        display: flex; flex-direction: column; overflow: hidden;
+    }
+    
+    .nxe-tool-download-header {
+        background: #f4f4f4; padding: 18px 25px; 
+        border-bottom: 2px solid #e0e0e0;
+        text-align: center;
+    }
+    
+    .nxe-tool-download-header h3 {
+        margin: 0; color: #000; font-size: 18px; font-weight: 800; text-transform: uppercase;
+    }
+    
+    .nxe-tool-download-body {
+        padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 15px;
+        text-align: center;
+    }
+    
+    .tool-icon-bw {
+        width: 65px; height: 65px; object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    
+    .nxe-tool-download-body p {
+        color: #444; font-size: 15px; margin: 0; line-height: 1.6;
+    }
+    
+    .nxe-tool-download-footer {
+        background: #f9f9f9; padding: 15px 25px; border-top: 1px solid #eee;
+        display: flex; justify-content: center;
+    }
+    
+    .footer-hint-bw {
+        display: flex; align-items: center; gap: 10px; font-weight: bold; color: #000; font-size: 14px;
+    }
+
+    
+    .button-icon.rb {
+        background: #ffffff !important; 
+        color: #000000 !important;
+        min-width: 32px !important; 
+        height: 18px !important;
+        border-radius: 4px 4px 2px 2px !important;
+        border: 2px solid #000000 !important;
+        font-size: 10px !important; 
+        font-weight: 800 !important;
+        line-height: 14px !important; 
+        padding: 0 5px !important;
+        box-shadow: 2px 2px 0px #000000 !important;
+        display: inline-flex !important; 
+        align-items: center !important; 
+        justify-content: center !important;
+    }
+
+    
+    html[dir="rtl"] #settings-content,
+    html[dir="rtl"] #settings-content .nxe-settings-wrapper { 
+        direction: ltr !important; 
+        text-align: left !important; 
+    }
+
+    
+    html[dir="rtl"] #settings-content .nxe-settings-container {
+        flex-direction: row !important; 
+    }
+
+    
+    html[dir="rtl"] #settings-content .nxe-settings-title {
+        text-align: left !important; 
+    }
+
+    
+    html[dir="rtl"] #settings-content .nxe-settings-description {
+        border-right: none !important;
+        border-left: 1px solid #ddd !important; 
+    }
+
+    
+    html[dir="rtl"] #settings-content .nxe-settings-item {
+        flex-direction: row !important;
+        text-align: left !important;
+    }
+
+    
+    html[dir="rtl"] #settings-content .config-option,
+    html[dir="rtl"] #settings-content .nxe-footer-left {
+        direction: ltr !important;
+        flex-direction: row !important;
+        text-align: left !important;
+    }
+    </style>
+</section>

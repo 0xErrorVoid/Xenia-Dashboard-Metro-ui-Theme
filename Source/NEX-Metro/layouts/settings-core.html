@@ -150,7 +150,7 @@
                         <h3 x-text="$store.app.t('core_config.manager_win')">Xenia Canary (Windows) Manager</h3>
                         
                         <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-                            <!-- صندوق النسخة العادية (Standard) -->
+                            
                             <div style="flex: 1; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
                                 <h4 style="margin: 0 0 10px 0; color: var(--nxe-brand-primary);">Standard Canary</h4>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.85rem;">
@@ -162,7 +162,7 @@
                                     <span style="color: var(--nxe-green-light); font-weight: bold;" x-text="$store.app.xeniaUpdateInfo.win.remoteVer"></span>
                                 </div>
                                 
-                                <!-- رسائل التقدم للنسخة العادية -->
+                                
                                 <div style="margin-top: 10px; min-height: 25px;">
                                     <p x-show="$store.app.downloadStatuses.win.status === 'idle'" style="font-weight: bold; font-size: 0.85rem; margin: 0;" :style="{ color: $store.app.xeniaUpdateInfo.win.color }" x-text="$store.app.xeniaUpdateInfo.win.message"></p>
                                     <div x-show="$store.app.downloadStatuses.win.status !== 'idle'">
@@ -174,7 +174,7 @@
                                 </div>
                             </div>
 
-                            <!-- صندوق نسخة (Netplay) -->
+                            
                             <div style="flex: 1; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
                                 <h4 style="margin: 0 0 10px 0; color: var(--nxe-brand-light);">Netplay Version</h4>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.85rem;">
@@ -186,7 +186,7 @@
                                     <span style="color: var(--nxe-green-light); font-weight: bold;" x-text="$store.app.xeniaUpdateInfo.winNetplay.remoteVer"></span>
                                 </div>
                                 
-                                <!-- رسائل التقدم للنسخة النتبلاي -->
+                                
                                 <div style="margin-top: 10px; min-height: 25px;">
                                     <p x-show="$store.app.downloadStatuses.winNetplay.status === 'idle'" style="font-weight: bold; font-size: 0.85rem; margin: 0;" :style="{ color: $store.app.xeniaUpdateInfo.winNetplay.color }" x-text="$store.app.xeniaUpdateInfo.winNetplay.message"></p>
                                     <div x-show="$store.app.downloadStatuses.winNetplay.status !== 'idle'">
