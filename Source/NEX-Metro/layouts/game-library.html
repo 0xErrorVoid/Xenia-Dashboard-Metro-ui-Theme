@@ -1,5 +1,11 @@
 <section class="page" id="game-library" x-data>
-    
+    <div class="game-scan-loading-overlay" x-show="$store.app.isScanningGames" x-transition.opacity style="display: none;">
+        <div class="scan-loading-box">
+            <div class="scan-spinner-ring"></div>
+            <h3 x-text="$store.app.t('library.scanning') || 'Scanning Library...'">Scanning Library...</h3>
+            <p x-text="$store.app.t('library.scanning_desc') || 'Please wait while we process your games safely.'">Please wait while we process your games safely.</p>
+        </div>
+    </div>
     <div class="nxe-hero-background-dynamic" :style="{ backgroundImage: $store.app.gameDetails.heroUrl }"></div>
 
     <header class="nxe-player-header">
@@ -153,6 +159,10 @@
 
                             <div class="info-badge" x-show="$store.app.gameExtendedInfo.releaseDate">
                                 <span x-text="$store.app.gameExtendedInfo.releaseDate.substring(0, 4)"></span>
+                            </div>
+                             <div class="info-badge" x-show="$store.app.filteredLibraryGames[$store.app.focusedIndex].discs?.length > 1">
+                                <span style="opacity:0.8"></span>
+                                <span x-text="$store.app.filteredLibraryGames[$store.app.focusedIndex].discs?.length + ' Discs'"></span>
                             </div>
                         </div>
                     </div>
@@ -460,11 +470,119 @@
 
         </div>
     </div>
+    <div class="disc-selector-overlay" x-show="$store.app.isDiscSelectorOpen" x-transition.opacity style="display: none;">
+        <div class="disc-selector-box">
+            <div class="disc-selector-header">
+                <h3 x-text="$store.app.t('library.select_disc') || 'Select Disc'">Select Disc</h3>
+                <span x-text="$store.app.discSelectorGame?.discs?.length + ' Discs'"></span>
+            </div>
+            
+            <div class="disc-selector-list custom-scrollbar">
+                <template x-for="(disc, index) in $store.app.discSelectorGame?.discs" :key="index">
+                    <div 
+                        class="disc-file-item" 
+                        :class="{'focused': $store.app.discSelectorIndex === index}"
+                        @click="$store.app.discSelectorIndex = index; $store.actions.launchSelectedDisc()"
+                    >
+                        <span class="file-name" x-text="disc.fileName"></span>
+                    </div>
+                </template>
+            </div>
+
+            <div class="disc-selector-footer">
+                <div><span class="btn-icon a">A</span> <span x-text="$store.app.t('generic.select') || 'Launch'">Launch</span></div>
+                <div><span class="btn-icon b">B</span> <span x-text="$store.app.t('generic.cancel') || 'Cancel'">Cancel</span></div>
+            </div>
+        </div>
+    </div>
 
     <style>
+        .disc-selector-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
 
 
-        
+        .disc-selector-box {
+            min-width: 500px;
+            max-width:800px;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+
+
+        .disc-selector-header {
+            background-color: #f5f5f5;
+            padding: 20px 25px;
+            border-bottom: 1px solid #dddddd;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .disc-selector-header h3 {
+            margin: 0; color: #000000; font-size: 20px; font-weight: bold;
+        }
+        .disc-selector-header span {
+            color: #666666; font-size: 14px; font-weight: bold;
+        }
+
+
+        .disc-selector-list {
+            padding: 10px; max-height: 300px; overflow-y: auto;
+            background-color: #ffffff;
+        }
+
+
+        .disc-file-item {
+            padding: 15px 20px; margin-bottom: 5px; border-radius: 6px;
+            display: flex; align-items: center; gap: 15px;
+            background-color: #f9f9f9; border: 1px solid #eeeeee;
+            color: #333333; cursor: pointer;
+        }
+
+
+        .disc-file-item.focused {
+            background-color: #e0e0e0;
+            color: #000000; font-weight: bold;
+            border-color: #999999;
+        }
+
+
+        .file-icon {
+            width: 24px; height: 24px; border-radius: 50%;
+            background-color: #cccccc; display: inline-block;
+        }
+        .disc-file-item.focused .file-icon {
+            background-color: #555555;
+        }
+
+        .file-name {
+            font-size: 16px; flex: 1;
+        }
+
+
+        .disc-selector-footer {
+            padding: 15px 25px;
+            background-color: #f5f5f5;
+            display: flex; gap: 20px; justify-content: flex-end;
+            border-top: 1px solid #dddddd;
+        }
+        .disc-selector-footer div {
+            display: flex; align-items: center; gap: 8px;
+            color: #000000; font-weight: bold; font-size: 14px;
+        }
+
+
+        .btn-icon {
+            
+            border-radius: 50%; width: 24px; height: 24px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: bold;
+        }
+        .btn-icon.a { background-color: #28cf18; color: #ffffff; }
+        .btn-icon.b { background-color: #cf1b1b; color: #ffffff; }
         .button-icon.L3-icon {
             width: 30px;
             height: 30px;
@@ -1099,13 +1217,83 @@
     }
 
 
-    
+    .game-scan-loading-overlay {
+    position: fixed; 
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    pointer-events: all; 
+}
+
+
+.scan-loading-box {
+    background: linear-gradient(145deg, #f8f8f8, #d8d8d8);
+    border: 2px solid #ffffff;
+    border-radius: 16px;
+    padding: 40px 70px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: scale(0.9);
+    opacity: 0;
+    animation: scanBoxPopIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes scanBoxPopIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+
+.scan-spinner-ring {
+    width: 70px;
+    height: 70px;
+    border: 5px solid rgba(0, 0, 0, 0.1); 
+    border-top: 5px solid var(--nxe-brand-primary, #90c31d); 
+    border-right: 5px solid var(--nxe-brand-primary, #90c31d);
+    border-radius: 50%;
+    animation: scanSpinRing 1s linear infinite;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+@keyframes scanSpinRing {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+.scan-loading-box h3 {
+    color: #000000 !important;
+    text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.9) !important;
+    font-size: 26px;
+    font-weight: 900 !important;
+    margin: 0 0 10px 0;
+    letter-spacing: 1px;
+}
+
+
+.scan-loading-box p {
+    color: #333333 !important;
+    font-size: 15px;
+    margin: 0;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
 
     
-    html.is-rtl .info-card-header {
+html.is-rtl .info-card-header {
         direction: ltr !important; 
         text-align: left;
-    }
+}
 
 
 html.is-rtl .info-badges-row {
