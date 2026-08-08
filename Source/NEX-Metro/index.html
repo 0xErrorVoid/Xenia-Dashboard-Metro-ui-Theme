@@ -169,8 +169,170 @@
 
     </div>
 </div>
+    <div class="disc-selector-overlay" x-show="$store.app.isDiscSelectorOpen" x-transition.opacity style="display: none;">
+        <div class="disc-selector-box">
+            <div class="disc-selector-header">
+                <h3 x-text="$store.app.t('library.select_disc') || 'Select Disc'">Select Disc</h3>
+                <span x-text="$store.app.discSelectorGame?.discs?.length + ' Discs'"></span>
+            </div>
 
+            <div class="disc-selector-list custom-scrollbar">
+                <template x-for="(disc, index) in $store.app.discSelectorGame?.discs" :key="index">
+                    <div
+                        class="disc-file-item"
+                        :class="{'focused': $store.app.discSelectorIndex === index}"
+                        @click="$store.app.discSelectorIndex = index; $store.actions.launchSelectedDisc()"
+                    >
+                        <span class="file-name" x-text="disc.fileName"></span>
+                    </div>
+                </template>
+            </div>
+
+            <div class="disc-selector-footer">
+                <div><span class="friend-btn-icon a">A</span> <span x-text="$store.app.t('generic.select') || 'Launch'">Launch</span></div>
+                <div><span class="friend-btn-icon b">B</span> <span x-text="$store.app.t('generic.cancel') || 'Cancel'">Cancel</span></div>
+            </div>
+        </div>
+    </div>
 <style>
+.disc-selector-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disc-selector-box {
+    min-width: 500px;
+    max-width: 800px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    direction: ltr;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.disc-selector-header {
+    background-color: #f5f5f5;
+    padding: 20px 25px;
+    border-bottom: 1px solid #dddddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.disc-selector-header h3 {
+    margin: 0;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.disc-selector-header span {
+    color: #666666;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.disc-selector-list {
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #ffffff;
+}
+
+.disc-file-item {
+    padding: 15px 20px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #eeeeee;
+    color: #333333;
+    cursor: pointer;
+}
+
+.disc-file-item.focused {
+    background-color: #e0e0e0;
+    color: #000000;
+    font-weight: bold;
+    border-color: #999999;
+}
+
+.disc-file-item .file-name {
+    font-size: 16px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.disc-file-item.focused .file-icon {
+    background-color: #555555;
+}
+
+.disc-selector-footer {
+    padding: 15px 25px;
+    background-color: #f5f5f5;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+    border-top: 1px solid #dddddd;
+}
+
+.disc-selector-footer div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.disc-selector-footer .friend-btn-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.disc-selector-footer .friend-btn-icon.a {
+    background-color: #28cf18;
+    color: #000000;
+}
+
+.disc-selector-footer .friend-btn-icon.b {
+    background-color: #cf1b1b;
+    color: #000000;
+}
     
     .shutdown-crt {
         position: fixed;
@@ -354,12 +516,14 @@
                 <span style="color: #1bad1b; font-weight: 700;" x-text="$store.app.newAppVersionFound"></span>
                 <span x-text="$store.app.t('app_update.version_suffix')"></span>
             </p>
+            
             <div x-show="$store.app.appUpdateInfo.releaseNotes"
                  class="nxe-markdown-body"
                  style="margin-top: 15px; padding: 15px; background: #fafafa; border-radius: 8px; border: 1px solid #e0e0e0; box-shadow: inset 0 2px 6px rgba(0,0,0,0.05); max-height: 160px; overflow-y: auto;"
                  x-html="$store.app.parseMarkdown($store.app.appUpdateInfo.releaseNotes)">
             </div>
 
+            
             <p x-show="!$store.app.appUpdateInfo.releaseNotes" style="margin: 10px 0 0 0; font-size: 0.9rem; color: #ccc; text-align: center; line-height: 1.6;" 
                x-text="$store.app.t('app_update.description')">
             </p>
@@ -611,7 +775,9 @@
             margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 15px; display: flex; justify-content: center; gap: 30px;
         }
-                .nxe-markdown-body {
+
+        
+        .nxe-markdown-body {
             font-size: 0.95rem;
             color: #333333;
             line-height: 1.5;
@@ -629,6 +795,7 @@
         .nxe-markdown-body strong { color: #000; font-weight: 800; }
         .nxe-markdown-body .nxe-md-hr { border: 0; border-top: 1px dashed #cccccc; margin: 12px 0; }
 
+        
         .nxe-markdown-body::-webkit-scrollbar { width: 6px; }
         .nxe-markdown-body::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 10px; }
         .nxe-markdown-body::-webkit-scrollbar-thumb { background: #bbbbbb; border-radius: 10px; }
