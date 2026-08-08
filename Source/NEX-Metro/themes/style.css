@@ -197,8 +197,8 @@ body {
     width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
     color: #111; font-weight: bold; font-size: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.6);
 }
-.btn-bubble.btn-a { background: #57E610; }
-.btn-bubble.btn-b { background: #DB1F1F; color: #fff; }
+.btn-bubble.btn-a { background: #57E610; color: #000000; }
+.btn-bubble.btn-b { background: #DB1F1F; color: #000000; }
 
 
 .guide-lang-badge {
@@ -696,8 +696,8 @@ html[dir="rtl"] .nxe-footer-left { left: auto !important; right: 50px !important
 
 
 #game-library .button-icon.a { background-color: var(--nxe-btn-a) !important; color: #000 !important; border: none !important; }
-#game-library .button-icon.b { background-color: var(--nxe-btn-b) !important; color: #fff !important; border: none !important; }
-#game-library .button-icon.x { background-color: var(--nxe-btn-x) !important; color: #fff !important; border: none !important; }
+#game-library .button-icon.b { background-color: var(--nxe-btn-b) !important; color: #000 !important; border: none !important; }
+#game-library .button-icon.x { background-color: var(--nxe-btn-x) !important; color: #000 !important; border: none !important; }
 #game-library .button-icon.y { background-color: var(--nxe-btn-y) !important; color: #000 !important; border: none !important; }
 
 
