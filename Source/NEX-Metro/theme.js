@@ -180,40 +180,51 @@ hooks.on('onAppReady', async () => {
             }
             originalSelectFocusedItem.call(this);
         };
-                actions.launchSelectedDisc = function() {
-                const app = Alpine.store('app');
-                const item = app.discSelectorGame;
-                const selectedDisc = item.discs[app.discSelectorIndex];
+        actions.launchSelectedDisc = function() {
+            const app = Alpine.store('app');
+            const item = app.discSelectorGame;
+            const selectedDisc = item.discs[app.discSelectorIndex];
+
+            
+            app.isDiscSelectorOpen = false;
+
+            if (item && selectedDisc) {
+                
+                const discGameObj = {
+                    ...item,
+                    path: selectedDisc.path,
+                    fileName: selectedDisc.fileName,
+                    name: selectedDisc.fileName.replace(/\.(iso|zar|xex)$/i, ''),
+             discs: null
+                };
 
                 
-                app.isDiscSelectorOpen = false;
+                if (app.currentView === 'game-library') {
+                    if (!app.gameSelectionAnimating) {
+                        app.gameSelectionAnimating = true;
+                        app.selectedGame = discGameObj;
+                        this.playSound('select');
 
-                if (item && selectedDisc && !app.gameSelectionAnimating) {
-                    app.gameSelectionAnimating = true;
-                    
-                    
-                    app.selectedGame = {
-                        ...item,
-                        path: selectedDisc.path,
-                        fileName: selectedDisc.fileName,
-                        discs: null 
-                    };
-                    
-                    this.playSound('select');
-                    
-                    
-                    setTimeout(() => {
-                        this.goBack(); 
+                        
                         setTimeout(() => {
-                            app.masterIndex = 0; 
-                            actions.updateDetailMenu(); 
-                            app.detailIndex = 0; 
-                            app.focusedList = 'detail';
-                            app.gameSelectionAnimating = false;
-                        }, 800);
-                    }, 500);
+                            this.goBack();
+                            setTimeout(() => {
+                                app.masterIndex = 0;
+                                actions.updateDetailMenu();
+                                app.detailIndex = 0;
+                                app.focusedList = 'detail';
+                                app.gameSelectionAnimating = false;
+                            }, 800);
+                        }, 500);
+                    }
                 }
-            };
+                
+                else {
+                    this.playSound('select');
+                    this.launchGame(discGameObj);
+                }
+            }
+        };
 
         const originalSelectDetailItem = actions.selectDetailItem;
         actions.selectDetailItem = function() {
@@ -257,7 +268,7 @@ hooks.on('onAppReady', async () => {
     if (app.currentView === 'dashboard') {
         
         
-        if (app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay || app.isFriendsOverlayOpen) {
+        if (app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay || app.isFriendsOverlayOpen || app.isDiscSelectorOpen) {
             return;
         }
 
@@ -329,7 +340,7 @@ hooks.on('onAppReady', async () => {
 document.addEventListener('keydown', (e) => {
     if (app.currentView !== 'dashboard') return;
     
-    if (app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay) return;
+    if (app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay || app.isDiscSelectorOpen) return;
 
     const key = e.key;
 
