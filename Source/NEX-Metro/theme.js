@@ -22,26 +22,54 @@ hooks.on('onAppReady', async () => {
         app.customTileBgs = themeMods.customTileBgs || {};
     });
 
+    
     actions.changeCustomTileBg = async function(item) {
-        if (item.view !== 'none' || isSelectingImage) return;
+        if (item.view !== 'none') return;
+        const app = Alpine.store('app');
         
-        isSelectingImage = true;
-        this.playSound('select');
         
-        try {
-            const filePath = await window.electronAPI.openImageFile();
+        app.activeTileForBg = item; 
+        
+        
+        this.openGallery('customTileBg'); 
+    };
+
+    
+    const originalSelectGalleryImage = actions.selectGalleryImage;
+    actions.selectGalleryImage = async function() {
+        const app = Alpine.store('app');
+
+        
+        if (app.galleryType === 'customTileBg') {
+            const selected = app.galleryImages[app.galleryIndex];
+            if (!selected) return;
+
+            let filePath = selected.path;
+
             
-            if (filePath) {
+            if (selected.id === 'browse') {
+                filePath = await window.electronAPI.openImageFile();
+                if (!filePath) return; 
+            }
+
+            this.playSound('select');
+
+            const item = app.activeTileForBg;
+            if (item) {
+                
                 app.customTileBgs[item.id] = `file://${filePath.replace(/\\/g, '/')}`;
-                
                 let themeMods = await window.electronAPI.get('mods_' + app.currentTheme) || {};
-                
                 themeMods.customTileBgs = JSON.parse(JSON.stringify(app.customTileBgs));
-                
                 await window.electronAPI.set('mods_' + app.currentTheme, themeMods);
             }
-        } finally {
-            isSelectingImage = false;
+
+            app.isGalleryOpen = false; 
+            return; 
+        }
+
+        
+        if (originalSelectGalleryImage) {
+            return originalSelectGalleryImage.call(this);
         }
     };
 
@@ -246,29 +274,26 @@ hooks.on('onAppReady', async () => {
 });
 
     hooks.on('onGamepadInput', (input) => {
+
+        
+        const isAnyOverlayOpen = app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay || app.isFriendsOverlayOpen || app.isDiscSelectorOpen || app.isGalleryOpen;
+
         if (input.event === 'button_x' && input.value > 0.5) {
-            if (app.focusedList === 'detail') {
-                const focusedItem = app.detailMenu[app.detailIndex];
-                if (focusedItem && focusedItem.view === 'none' && app.customTileBgs[focusedItem.id]) {
-                    actions.resetCustomTileBg(focusedItem);
-                }
-            }
-        }
-        if (input.event === 'button_a' && input.value > 0.5) {
-            if (app.currentView === 'dashboard' && !app.isKeyboardOpen && !app.isProfileSelectorOpen && !app.isGuideOpen) {
+            if (app.currentView === 'dashboard' && !isAnyOverlayOpen) {
                 if (app.focusedList === 'detail') {
                     const focusedItem = app.detailMenu[app.detailIndex];
-                    if (focusedItem && focusedItem.view === 'none') {
-                        actions.changeCustomTileBg(focusedItem);
-                        return; 
+                    if (focusedItem && focusedItem.view === 'none' && app.customTileBgs[focusedItem.id]) {
+                        actions.resetCustomTileBg(focusedItem);
                     }
                 }
             }
         }
+
+        
     if (app.currentView === 'dashboard') {
         
         
-        if (app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay || app.isFriendsOverlayOpen || app.isDiscSelectorOpen) {
+        if (app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay || app.isFriendsOverlayOpen || app.isDiscSelectorOpen || app.isGalleryOpen) {
             return;
         }
 
@@ -340,7 +365,7 @@ hooks.on('onAppReady', async () => {
 document.addEventListener('keydown', (e) => {
     if (app.currentView !== 'dashboard') return;
     
-    if (app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay || app.isDiscSelectorOpen) return;
+    if (app.isKeyboardOpen || app.isProfileSelectorOpen || app.isGuideOpen || app.showGameInfoOverlay || app.isDiscSelectorOpen || app.isGalleryOpen) return;
 
     const key = e.key;
 
