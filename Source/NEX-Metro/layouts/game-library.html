@@ -153,7 +153,7 @@
                             </div>
                             
                             <div class="info-badge" x-show="$store.app.gameExtendedInfo.developer">
-                                <span style="opacity:0.7" x-text="$store.app.t('library.dev_short')">Dev:</span>
+                                <span style="opacity:0.85" x-text="$store.app.t('library.dev_short')">Dev:</span>
                                 <span x-text="$store.app.gameExtendedInfo.developer"></span>
                             </div>
 
@@ -168,7 +168,7 @@
                     </div>
                     
                     <div class="info-card-id">
-                        <span style="font-size: 10px; color:#888; display:block;" x-text="$store.app.t('library.title_id_label')">TITLE ID</span>
+                        <span style="font-size: 10px; color:#555; display:block;" x-text="$store.app.t('library.title_id_label')">TITLE ID</span>
                         <span x-text="$store.app.filteredLibraryGames[$store.app.focusedIndex].titleID || 'No ID'"></span>
                     </div>
                 </div>
@@ -197,7 +197,7 @@
                         </div>
 
                         <h4 style="margin-top: 20px;" x-text="$store.app.t('library.description')">Description</h4>
-                        <p x-show="$store.app.gameExtendedInfo.loading" style="color:#888;" x-text="$store.app.t('generic.loading')">Loading...</p>
+                        <p x-show="$store.app.gameExtendedInfo.loading" style="color:#555;" x-text="$store.app.t('generic.loading')">Loading...</p>
 
                             <div class="description-container">
                                 <p x-show="!$store.app.gameExtendedInfo.loading" 
@@ -245,7 +245,7 @@
                                     <li x-text="issue.replace('gpu-', 'GPU: ').replace('audio-', 'Audio: ').replace('tech-', 'Tech: ')"></li>
                                 </template>
                                 <template x-if="!$store.app.filteredLibraryGames[$store.app.focusedIndex].compatIssues || $store.app.filteredLibraryGames[$store.app.focusedIndex].compatIssues.length === 0">
-                                    <li style="color:#8f8; list-style:none;" x-text="'✔ ' + $store.app.t('library.no_issues')">✔ No known issues.</li>
+                                    <li style="color:#1b5e20;; list-style:none;" x-text="'✔ ' + $store.app.t('library.no_issues')">✔ No known issues.</li>
                                 </template>
                             </ul>
                         </div>
@@ -373,6 +373,7 @@
                 <template x-for="(file, index) in $store.app.patchSelectorFiles" :key="index">
                     <div 
                         class="patch-file-item" 
+                        :id="'patch-file-' + index"
                         :class="{'focused': $store.app.patchSelectorIndex === index}"
                         @click="$store.app.patchSelectorIndex = index; $store.actions.selectPatchFileAndOpen()"
                     >
@@ -642,18 +643,18 @@
         }
 
         .mini-translate-btn.revert {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #fff;
+            background: rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.2);
+            color: #000;
         }
 
         .mini-translate-btn.revert:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.15);
         }
         .mini-translate-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
+            background: rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            color: #000;
             padding: 4px 12px;
             border-radius: 12px;
             font-size: 10px;
@@ -664,8 +665,8 @@
         }
 
         .mini-translate-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
+            background: rgba(0, 0, 0, 0.12);
+            color: #000;
             transform: scale(1.05);
         }
 
@@ -705,7 +706,25 @@
         align-items: center; justify-content: center;
     }
 
-    
+    .button-icon.rb-icon {
+        background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
+        color: #333;
+        min-width: 40px;
+        height: 18px;
+        border-radius: 6px 6px 2px 2px; 
+        border-bottom: 2px solid #999;
+        font-size: 10px;
+        font-weight: 900;
+        font-family: "Segoe UI", sans-serif;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        margin-right: 8px;
+        transform: translateY(-1px);
+        line-height: 1;
+    }
+
     .button-icon.lb-icon {
         background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 100%);
         color: #333;
@@ -895,8 +914,8 @@
 
     .art-manager-glass-box {
         width: 92%; height: 90%; max-width: 1700px; max-height: 95vh;
-        background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(10, 10, 10, 0.98));
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: linear-gradient(145deg, #ffffff 0%, #ececec 100%);
+        border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 24px;
         box-shadow: 0 0 80px rgba(0,0,0,0.9);
         display: flex; flex-direction: column; overflow: hidden;
@@ -906,21 +925,21 @@
 
     .art-header {
         flex-shrink: 0; padding: 25px 40px;
-        background: rgba(255,255,255,0.03);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
+        background: rgba(0,0,0,0.03);
+        border-bottom: 1px solid rgba(0,0,0,0.08);
         display: flex; justify-content: space-between; align-items: center;
     }
-    .art-header h2 { margin: 0; color: #fff; font-size: 32px; font-weight: 300; letter-spacing: 1px; }
+    .art-header h2 { margin: 0; color: #000; font-size: 32px; font-weight: 300; letter-spacing: 1px; }
     
-    .art-tabs { display: flex; gap: 10px; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 40px; }
+    .art-tabs { display: flex; gap: 10px; background: rgba(0,0,0,0.08); padding: 6px; border-radius: 40px; }
     .art-tab {
         padding: 10px 30px; border-radius: 30px; 
-        color: #aaa; font-size: 14px; font-weight: bold; 
+        color: #555; font-size: 14px; font-weight: bold; 
         cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px;
     }
     .art-tab.active { 
-        background: #fff; color: #000; 
-        box-shadow: 0 0 20px rgba(255,255,255,0.4); transform: scale(1.05); 
+        background: #000; color: #fff; 
+        box-shadow: 0 0 20px rgba(0,0,0,0.3); transform: scale(1.05); 
     }
 
     .art-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 40px; position: relative; }
@@ -956,46 +975,46 @@
     .art-grid.logo { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
     .art-grid.logo .art-item { 
         aspect-ratio: 16/9; padding: 20px;
-        background: radial-gradient(circle, rgba(60,60,60,1) 0%, rgba(20,20,20,1) 100%); 
+        background: radial-gradient(circle, rgba(230,230,230,1) 0%, rgba(200,200,200,1) 100%); 
     }
     .art-grid.logo .art-item img { object-fit: contain; }
 
     .art-grid.icon { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); width: 100%; height: 50%; display: grid; gap: -20px; }
     .art-grid.icon .art-item { 
-        aspect-ratio: 1/1; background: #0a0a0a; padding: 0;
-        background: radial-gradient(circle, rgba(60,60,60,1) 0%, rgba(20,20,20,1) 100%); 
+        aspect-ratio: 1/1; background: #e0e0e0; padding: 0;
+        background: radial-gradient(circle, rgba(230,230,230,1) 0%, rgba(200,200,200,1) 100%); 
     }
     .art-grid.icon .art-item img { object-fit: contain; width: 50%; height: 50%; border-radius: 50%; }
 
     
-    .art-item.focused {
-        border-color: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.5);
+        .art-item.focused {
+        border-color: #000; box-shadow: 0 0 30px rgba(0,0,0,0.4);
         transform: scale(1.08); z-index: 10;
     }
     .art-grid.icon .art-item.focused {
-        transform: scale(1.15); background: #1a1a1a; border-color: #fff;
-        box-shadow: 0 0 25px rgba(255, 255, 255, 0.4), 0 20px 40px rgba(0,0,0,0.8);
+        transform: scale(1.15); background: #f0f0f0; border-color: #000;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.3), 0 20px 40px rgba(0,0,0,0.5);
     }
 
     .art-loading, .art-error, .no-art {
         height: 100%; min-height: 300px;
         display: flex; flex-direction: column; align-items: center; justify-content: center; 
-        color: #fff; text-align: center;
+        color: #000; text-align: center;
     }
     .spinner {
-        width: 60px; height: 60px; border: 6px solid rgba(255,255,255,0.1);
-        border-top-color:  #ffffff; border-radius: 50%;
+        width: 60px; height: 60px; border: 6px solid rgba(0,0,0,0.1);
+        border-top-color:  #000000; border-radius: 50%;
         animation: spin 1s linear infinite; margin-bottom: 25px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .art-footer {
-        flex-shrink: 0; padding: 25px 40px; background: rgba(0,0,0,0.4);
-        border-top: 1px solid rgba(255,255,255,0.1);
+        flex-shrink: 0; padding: 25px 40px; background: rgba(0,0,0,0.06);
+        border-top: 1px solid rgba(0,0,0,0.1);
         display: flex; justify-content: space-between; align-items: center;
     }
     .btn-group { display: flex; gap: 30px; }
-    .footer-btn { display: flex; align-items: center; gap: 10px; color: #eee; font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-btn { display: flex; align-items: center; gap: 10px; color: #000; font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
     .icon {
         width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
         color: #fff; font-size: 13px; font-weight: bold; box-shadow: 0 3px 6px rgba(0,0,0,0.6);
@@ -1003,13 +1022,13 @@
     .icon.a { background: #59c853; }
     .icon.b { background: #e5443a; }
     .icon.x { background: #3a82e5; }
-    .provider-logo { font-size: 13px; color: #888; }
-    .provider-logo b { color: #fff; }
+    .provider-logo { font-size: 13px; color: #555; }
+    .provider-logo b { color: #000; }
 
     
     .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 4px; }
 
    
     
@@ -1027,18 +1046,18 @@
         display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;
     }
     .info-badge {
-        background: rgba(255,255,255,0.1);
+        background: rgba(0,0,0,0.06);
         padding: 4px 10px; 
         border-radius: 4px;
         font-size: 12px; 
-        color: #eee;
+        color: #000000;
         display: flex; align-items: center; gap: 5px;
-        border: 1px solid rgba(255,255,255,0.05);
+        border: 1px solid rgba(0,0,0,0.1);
     }
-    .info-badge.rating {
-        background: rgba(242, 196, 14, 0.15);
-        border-color: rgba(242, 196, 14, 0.3);
-        color: #f2c40e;
+        .info-badge.rating {
+        background: rgba(242, 196, 14, 0.25);
+        border-color: rgba(180, 140, 0, 0.5);
+        color: #7a5c00;
         font-weight: bold;
     }
     .star { font-size: 14px; margin-top: -2px; }
@@ -1060,22 +1079,22 @@
 
     
     .details-grid-box {
-        background: rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.04);
         border-radius: 8px;
         padding: 15px;
         margin-bottom: 20px;
         display: grid;
         grid-template-columns: 1fr 1fr; 
         gap: 15px;
-        border: 1px solid rgba(255,255,255,0.05);
+        border: 1px solid rgba(0,0,0,0.08);
     }
     .detail-row {
         display: flex;
         flex-direction: column;
     }
-    .detail-row .label {
+        .detail-row .label {
         font-size: 11px;
-        color: #ffffff; 
+        color: #000000; 
         text-transform: uppercase;
         font-weight: bold;
         margin-bottom: 3px;
@@ -1083,34 +1102,34 @@
     }
     .detail-row .value {
         font-size: 13px;
-        color: #fff;
+        color: #333333;
         font-weight: 500;
     }
 
     
-    .col-description h4 { margin-top: 0; color: #ffffff; margin-bottom: 10px; }
+    .col-description h4 { margin-top: 0; color: #000000; margin-bottom: 10px; }
     .col-description p {
-        font-size: 15px; line-height: 1.6; color: #ccc;
+        font-size: 15px; line-height: 1.6; color: #222222;
         white-space: pre-line;
     }
 
     
     .col-status {
         flex: 1;
-        background: rgba(0,0,0,0.3);
+        background: rgba(0,0,0,0.04);
         padding: 20px; border-radius: 12px;
         height: fit-content;
-        border: 1px solid rgba(255,255,255,0.05);
+        border: 1px solid rgba(0,0,0,0.08);
     }
 
     
     .info-screenshots-section {
         padding: 0 30px 30px 30px;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        background: rgba(0,0,0,0.2);
+        border-top: 1px solid rgba(0,0,0,0.08);
+        background: rgba(0,0,0,0.04);
     }
     .info-screenshots-section h4 {
-        color: #888; font-size: 12px; text-transform: uppercase; margin: 15px 0 10px 0;
+        color: #000000; font-size: 12px; text-transform: uppercase; margin: 15px 0 10px 0;
     }
     
     .screenshots-strip {

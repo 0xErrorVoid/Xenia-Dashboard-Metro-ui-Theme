@@ -384,6 +384,7 @@
                                 :style="{ color: $store.app.appUpdateInfo.status === 'update-available' ? '#59c853' : '#fff' }"
                                 x-text="$store.app.appUpdateInfo.message"
                             ></p>
+                            
                             <div x-show="$store.app.appUpdateInfo.status === 'update-available' && $store.app.appUpdateInfo.releaseNotes"
                                  class="settings-markdown-body"
                                  style="margin-top: 10px; padding: 10px 15px; background: rgba(206, 206, 206, 0.634); border-radius: 6px; border: 1px solid rgba(198, 198, 198, 0.783); box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.653); max-height: 110px; overflow-y: auto;"
@@ -454,6 +455,7 @@
     </footer>
     <style>
 
+         
         .settings-markdown-body {
             font-size: 0.85rem;
             color: #000000;
@@ -471,6 +473,7 @@
         .settings-markdown-body strong { color: #000000; font-weight: bold; }
         .settings-markdown-body .nxe-md-hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 8px 0; }
 
+        
         .settings-markdown-body::-webkit-scrollbar { width: 5px; }
         .settings-markdown-body::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
         .settings-markdown-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 10px; }

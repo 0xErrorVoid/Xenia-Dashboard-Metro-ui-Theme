@@ -835,12 +835,10 @@ html[dir="rtl"] .nxe-footer-left { left: auto !important; right: 50px !important
     max-width: 1100px;
     height: auto; 
     max-height: 75vh;
-    background: #111111; 
-    border: 1px solid #444; 
-    
-    
+    background: linear-gradient(145deg, #ffffff 0%, #ececec 100%);
+    color: #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0 !important; 
-    
     box-shadow: 0 15px 60px rgba(0,0,0,0.9);
     display: flex;
     flex-direction: column;
@@ -904,7 +902,8 @@ html[dir="rtl"] .nxe-footer-left { left: auto !important; right: 50px !important
 
 .info-card-header {
     padding: 25px 30px 15px 30px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     margin-bottom: 20px;
 }
 
@@ -919,7 +918,7 @@ html[dir="rtl"] .nxe-footer-left { left: auto !important; right: 50px !important
 
 .info-card-title {
     font-size: 2.2rem;
-    color: #fff;
+    color: #000000;
     font-weight: 700;
     margin: 0;
     text-shadow: 0 2px 5px rgba(0,0,0,0.8);
@@ -984,8 +983,10 @@ html[dir="rtl"] .nxe-footer-left { left: auto !important; right: 50px !important
     display: none !important;
 }
 
-
-
+#game-library .info-card-id span:last-child {
+    color: #000000 !important;
+    font-weight: 700;
+}
 
 .tile-gamelibrary {
     transition: background-image 1s ease-in-out, transform 0.3s ease, border-color 0.3s ease !important;
