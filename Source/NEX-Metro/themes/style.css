@@ -598,10 +598,18 @@ body::after {
 
 
 .nxe-settings-icon { 
-    filter: brightness(0.25) !important;
-    width: 26px !important; height: 26px !important;
+    filter: brightness(1) !important;
+    width: 26px !important; 
+    height: 26px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+    transition: box-shadow 0.25s ease, transform 0.25s ease !important;
 }
-.nxe-settings-item.focused .nxe-settings-icon { filter: brightness(0) invert(1) !important; }
+
+.nxe-settings-item.focused .nxe-settings-icon { 
+    filter: brightness(1) !important;
+    transform: scale(1.05);
+}
 
 
 .nxe-settings-description {
